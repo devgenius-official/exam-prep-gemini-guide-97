@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Send, Bot } from 'lucide-react';
+import { Send, Bot, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Message {
@@ -175,7 +175,7 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
               className="w-full mb-3"
               variant="outline"
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <Calendar className="mr-2 h-4 w-4" />
               Set Exam Date
             </Button>
           )}
