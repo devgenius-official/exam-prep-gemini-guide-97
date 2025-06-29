@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,7 +23,7 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: `Hello ${username}! I'm your exam preparation assistant. I'll help you create a personalized study plan. First, let me know when your exam is scheduled by clicking the calendar button below.`,
+      text: `Welcome ${username}! I'm your personal study mentor. Think of me as your dedicated teacher who's here to guide you through your exam preparation journey. My role is to teach you effective study strategies, break down complex topics, and help you build confidence. Let's start by setting your exam date so I can create a structured learning path for you.`,
       isBot: true,
       timestamp: new Date()
     }
@@ -45,7 +44,7 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
     if (examDate) {
       const examDateMessage: Message = {
         id: Date.now().toString(),
-        text: `Great! I see your exam is on ${examDate.toLocaleDateString()}. Now I can help you create a study plan. What subject are you preparing for?`,
+        text: `Excellent! With your exam on ${examDate.toLocaleDateString()}, I can now design a comprehensive study plan for you. As your mentor, I'll help you understand not just what to study, but how to study effectively. Tell me about your subject or course, and I'll start teaching you the best approaches and techniques to master the material.`,
         isBot: true,
         timestamp: new Date()
       };
@@ -65,7 +64,21 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
         body: JSON.stringify({
           contents: [{
             parts: [{
-              text: `You are an exam preparation assistant. The user's name is ${username}${examDate ? ` and their exam is on ${examDate.toLocaleDateString()}` : ''}. Help them with study planning, subject-specific guidance, and motivation. User message: ${message}`
+              text: `You are an experienced study mentor and teacher, not just a chatbot. Your role is to guide, teach, and mentor ${username} in their exam preparation${examDate ? ` for their exam on ${examDate.toLocaleDateString()}` : ''}. 
+
+              Your personality traits:
+              - Act like a wise, patient teacher who explains concepts clearly
+              - Break down complex topics into manageable parts
+              - Provide step-by-step learning strategies
+              - Use teaching techniques like examples, analogies, and practice questions
+              - Motivate and encourage like a mentor would
+              - Focus on understanding, not just memorization
+              - Give specific, actionable study advice
+              - Ask probing questions to ensure comprehension
+              
+              Always respond as if you're sitting across from a student, teaching them personally. Use phrases like "Let me teach you...", "Here's how I want you to approach this...", "As your mentor, I recommend...", etc.
+              
+              Student's message: ${message}`
             }]
           }],
           generationConfig: {
@@ -83,7 +96,7 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
       return data.candidates[0].content.parts[0].text;
     } catch (error) {
       console.error('Error calling Gemini API:', error);
-      return "I'm sorry, I'm having trouble connecting right now. Please try again in a moment.";
+      return "I apologize, but I'm having trouble connecting right now. As your mentor, I want to ensure you get the best guidance, so please try again in a moment.";
     }
   };
 
@@ -131,7 +144,7 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2">
           <Bot className="h-5 w-5" />
-          Exam Prep Assistant
+          Your Study Mentor
         </CardTitle>
       </CardHeader>
       
@@ -146,8 +159,8 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
                 <div
                   className={`max-w-[80%] p-3 rounded-lg ${
                     message.isBot
-                      ? 'bg-blue-100 text-blue-900'
-                      : 'bg-green-100 text-green-900'
+                      ? 'bg-purple-100 text-purple-900 border-l-4 border-purple-500'
+                      : 'bg-blue-100 text-blue-900'
                   }`}
                 >
                   <p className="text-sm">{message.text}</p>
@@ -159,8 +172,8 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-blue-100 text-blue-900 p-3 rounded-lg">
-                  <p className="text-sm">Thinking...</p>
+                <div className="bg-purple-100 text-purple-900 p-3 rounded-lg border-l-4 border-purple-500">
+                  <p className="text-sm">Let me think about the best way to teach you this...</p>
                 </div>
               </div>
             )}
@@ -176,7 +189,7 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
               variant="outline"
             >
               <Calendar className="mr-2 h-4 w-4" />
-              Set Exam Date
+              Set Your Exam Date
             </Button>
           )}
           
@@ -184,7 +197,7 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
             <Input
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Ask me about your exam preparation..."
+              placeholder="Ask your mentor anything about studying..."
               onKeyPress={handleKeyPress}
               disabled={isLoading}
             />
