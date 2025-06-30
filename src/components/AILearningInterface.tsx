@@ -5,6 +5,7 @@ import { Target, Clock, Play, Pause, RotateCcw, Bot, Brain, Sparkles } from 'luc
 import { toast } from 'sonner';
 import { ThemeToggle } from './ThemeToggle';
 import ChatBot from './ChatBot';
+import AITimetable from './AITimetable';
 
 interface LearningData {
   examDate: Date;
@@ -211,40 +212,39 @@ Make it challenging but appropriate for the level. Do not include any other text
           <ThemeToggle />
         </div>
 
-        {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Study Controls */}
+        {/* Main Dashboard Grid - Updated Layout */}
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+          {/* Left Column - Study Controls (1/4 width) */}
           <div className="space-y-6">
             {/* Study Timer */}
             <Card className="bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 border-2 border-violet-200 dark:border-violet-700 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                  <Clock className="h-6 w-6 text-violet-600" />
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-violet-600" />
                   ⏰ Study Timer
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4">
                 <div className="text-center">
-                  <div className="text-5xl font-mono font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-4">
+                  <div className="text-3xl font-mono font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-3">
                     {formatTime(studyTime)}
                   </div>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-2">
                   <Button 
                     onClick={toggleTimer} 
-                    size="lg"
+                    size="sm"
                     className="flex-1 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
                   >
-                    {isTimerRunning ? <Pause className="h-5 w-5 mr-2" /> : <Play className="h-5 w-5 mr-2" />}
+                    {isTimerRunning ? <Pause className="h-4 w-4 mr-1" /> : <Play className="h-4 w-4 mr-1" />}
                     {isTimerRunning ? 'Pause' : 'Start'}
                   </Button>
                   <Button 
                     onClick={resetTimer} 
                     variant="outline" 
-                    size="lg"
-                    className="bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/50 dark:to-pink-900/50"
+                    size="sm"
                   >
-                    <RotateCcw className="h-5 w-5" />
+                    <RotateCcw className="h-4 w-4" />
                   </Button>
                 </div>
               </CardContent>
@@ -253,39 +253,39 @@ Make it challenging but appropriate for the level. Do not include any other text
             {/* Mission Control */}
             <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-200 dark:border-blue-700 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                  <Target className="h-6 w-6 text-blue-600" />
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Target className="h-5 w-5 text-blue-600" />
                   📊 Mission Control
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="text-center mb-4">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{daysUntilExam}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Days Until Target 🎯</div>
+              <CardContent className="space-y-3">
+                <div className="text-center mb-3">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{daysUntilExam}</div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">Days Until Target 🎯</div>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <div className="flex justify-between items-center p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg">
-                    <span className="text-sm font-medium">📅 Target Date:</span>
-                    <span className="font-bold text-blue-600">{learningData.examDate.toLocaleDateString()}</span>
+                    <span className="text-xs font-medium">📅 Target Date:</span>
+                    <span className="font-bold text-blue-600 text-xs">{learningData.examDate.toLocaleDateString()}</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg">
-                    <span className="text-sm font-medium">📚 Subject:</span>
-                    <span className="font-bold text-purple-600">{learningData.subject}</span>
+                    <span className="text-xs font-medium">📚 Subject:</span>
+                    <span className="font-bold text-purple-600 text-xs">{learningData.subject}</span>
                   </div>
                   <div className="flex justify-between items-center p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg">
-                    <span className="text-sm font-medium">🎓 Level:</span>
-                    <span className="font-bold text-indigo-600">{learningData.className}</span>
+                    <span className="text-xs font-medium">🎓 Level:</span>
+                    <span className="font-bold text-indigo-600 text-xs">{learningData.className}</span>
                   </div>
                 </div>
                 
                 {/* AI Insight */}
                 {aiInsight && (
-                  <div className="mt-4 p-3 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/30 dark:to-blue-900/30 rounded-lg border border-green-200 dark:border-green-700">
+                  <div className="mt-3 p-3 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/30 dark:to-blue-900/30 rounded-lg border border-green-200 dark:border-green-700">
                     <div className="flex items-center gap-2 mb-2">
-                      <Bot className="h-4 w-4 text-green-600" />
+                      <Bot className="h-3 w-3 text-green-600" />
                       <span className="text-xs font-bold text-green-700 dark:text-green-300">AI INSIGHT</span>
                     </div>
-                    <p className="text-sm text-green-700 dark:text-green-300">{aiInsight}</p>
+                    <p className="text-xs text-green-700 dark:text-green-300">{aiInsight}</p>
                   </div>
                 )}
               </CardContent>
@@ -294,38 +294,38 @@ Make it challenging but appropriate for the level. Do not include any other text
             {/* AI Quiz Generator */}
             <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-2 border-emerald-200 dark:border-emerald-700 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                  <Brain className="h-6 w-6 text-emerald-600" />
-                  🤖 AI Quiz Generator
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Brain className="h-5 w-5 text-emerald-600" />
+                  🤖 AI Quiz
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 <Button 
                   onClick={generateQuiz}
                   disabled={isLoading}
                   className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-lg font-semibold"
-                  size="lg"
+                  size="sm"
                 >
                   {isLoading ? (
                     <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                       GENERATING...
                     </>
                   ) : (
                     <>
                       ⚡ Generate Quiz
-                      <Sparkles className="w-5 h-5 ml-2" />
+                      <Sparkles className="w-4 h-4 ml-2" />
                     </>
                   )}
                 </Button>
                 
                 {currentQuiz && (
-                  <div className="space-y-4">
-                    <div className="p-4 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-lg border">
-                      <p className="font-medium text-sm">{currentQuiz.question}</p>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-lg border">
+                      <p className="font-medium text-xs">{currentQuiz.question}</p>
                     </div>
                     
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       {currentQuiz.options.map((option, index) => (
                         <Button
                           key={index}
@@ -338,7 +338,7 @@ Make it challenging but appropriate for the level. Do not include any other text
                                 : "outline"
                               : "outline"
                           }
-                          className="w-full text-left justify-start text-sm p-3 h-auto"
+                          className="w-full text-left justify-start text-xs p-2 h-auto"
                           onClick={() => !showQuizAnswer && handleQuizAnswer(index)}
                           disabled={showQuizAnswer}
                         >
@@ -348,11 +348,11 @@ Make it challenging but appropriate for the level. Do not include any other text
                     </div>
                     
                     {showQuizAnswer && (
-                      <div className="p-3 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/30 dark:to-blue-900/30 rounded-lg border">
-                        <p className="text-sm font-medium text-green-800 dark:text-green-200 mb-1">
+                      <div className="p-2 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/30 dark:to-blue-900/30 rounded-lg border">
+                        <p className="text-xs font-medium text-green-800 dark:text-green-200 mb-1">
                           🤖 AI Explains:
                         </p>
-                        <p className="text-sm text-green-700 dark:text-green-300">
+                        <p className="text-xs text-green-700 dark:text-green-300">
                           {currentQuiz.explanation}
                         </p>
                       </div>
@@ -363,8 +363,20 @@ Make it challenging but appropriate for the level. Do not include any other text
             </Card>
           </div>
 
-          {/* Right Column - AI Chat */}
-          <div className="lg:col-span-2">
+          {/* Middle Column - AI Timetable (1/4 width) */}
+          <div className="h-[800px]">
+            <AITimetable 
+              username={username}
+              currentExam={{
+                examDate: learningData.examDate,
+                className: learningData.className,
+                subject: learningData.subject
+              }}
+            />
+          </div>
+
+          {/* Right Column - AI Chat (2/4 width) */}
+          <div className="xl:col-span-2">
             <div className="h-[800px]">
               <ChatBot 
                 username={username} 
