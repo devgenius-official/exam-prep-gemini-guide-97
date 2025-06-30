@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -77,11 +76,13 @@ const AIDialog = ({ username, onComplete }: AIDialogProps) => {
         return (
           <div className="text-center space-y-4">
             <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                <Bot className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center animate-pulse">
+                <Bot className="w-8 h-8 text-white" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Hello {username}! 👋</h2>
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Hello {username}! 🤖
+            </h2>
             <p className="text-gray-600">
               I'm your AI study mentor. I'm here to help you prepare for your upcoming exam.
               Let me gather some information to create a personalized study plan for you.
@@ -93,13 +94,14 @@ const AIDialog = ({ username, onComplete }: AIDialogProps) => {
                 <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
               </div>
             ) : (
-              <Button onClick={handleNext} className="mt-4">
-                Let's Get Started!
+              <Button onClick={handleNext} className="mt-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                Let's Get Started! 🚀
               </Button>
             )}
           </div>
         );
 
+      
       case 'exam-date':
         return (
           <div className="space-y-4">
@@ -217,6 +219,9 @@ const AIDialog = ({ username, onComplete }: AIDialogProps) => {
           <DialogTitle className="text-center">
             AI Study Mentor Setup
           </DialogTitle>
+          <DialogDescription className="text-center text-sm text-muted-foreground">
+            Let's set up your personalized AI learning experience
+          </DialogDescription>
         </DialogHeader>
         {getDialogContent()}
       </DialogContent>
