@@ -5,6 +5,8 @@ import { Target, Clock, Play, Pause, RotateCcw, Sparkles, CheckCircle } from 'lu
 import { toast } from 'sonner';
 import { ThemeToggle } from './ThemeToggle';
 import RobotTeacher from './RobotTeacher';
+import RobotChat from './RobotChat';
+import ChatBot from './ChatBot';
 
 interface LearningData {
   examDate: Date;
@@ -140,6 +142,10 @@ Make it challenging but appropriate for the level.`;
     }
   };
 
+  const handleQuizRequest = async (topic: string = '') => {
+    await generateQuiz(topic);
+  };
+
   const handleQuizAnswer = (answerIndex: number) => {
     setSelectedAnswer(answerIndex);
     setShowQuizAnswer(true);
@@ -148,8 +154,8 @@ Make it challenging but appropriate for the level.`;
   const daysUntilExam = Math.ceil((learningData.examDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-purple-900 dark:via-blue-900 dark:to-indigo-900 p-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-purple-900 dark:via-blue-900 dark:to-indigo-900">
+      <div className="container mx-auto p-4 space-y-6">
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
@@ -162,16 +168,41 @@ Make it challenging but appropriate for the level.`;
           <ThemeToggle />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-200px)]">
-          {/* Robot Teacher Interface */}
-          <div className="lg:col-span-2 flex flex-col">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[600px]">
+          <div className="space-y-4">
             <RobotTeacher 
-              username={username}
+              username={username} 
               learningData={learningData}
-              onQuizRequest={generateQuiz}
+              onQuizRequest={handleQuizRequest}
             />
           </div>
+          
+          <div className="space-y-4">
+            <RobotChat 
+              username={username} 
+              learningData={learningData}
+              onQuizRequest={handleQuizRequest}
+            />
+          </div>
+        </div>
 
+        <div className="mt-6">
+          <h2 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            💬 Study Mentor Chat
+          </h2>
+          <div className="h-[500px]">
+            <ChatBot 
+              username={username} 
+              examDate={learningData.examDate}
+              onExamDateRequest={() => {
+                // Could implement exam date update functionality here
+                console.log('Exam date update requested');
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-200px)]">
           {/* AI Quiz Section */}
           <div className="flex flex-col space-y-4">
             <Card className="bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 border-2 border-emerald-200 dark:border-emerald-700 shadow-lg">
