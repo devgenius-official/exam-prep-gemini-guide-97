@@ -155,7 +155,10 @@ const AIDialog = ({ username, onComplete }: AIDialogProps) => {
                   <Calendar className="w-4 h-4 text-blue-600" />
                   Exam Date *
                 </Label>
-                <ExamDatePicker date={examDate} onDateChange={setExamDate} />
+                <ExamDatePicker 
+                  selectedDate={examDate} 
+                  onDateSelect={setExamDate} 
+                />
               </div>
             </div>
           ) : (
