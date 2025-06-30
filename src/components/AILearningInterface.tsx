@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Target, Clock, Play, Pause, RotateCcw } from 'lucide-react';
 import { toast } from 'sonner';
 import { ThemeToggle } from './ThemeToggle';
-import RobotChat from './RobotChat';
+import RobotTeacher from './RobotTeacher';
 
 interface LearningData {
   examDate: Date;
@@ -155,9 +155,9 @@ Make it challenging but appropriate for the level.`;
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-200px)]">
-          {/* Robot Chat Interface */}
+          {/* Robot Teacher Interface */}
           <div className="lg:col-span-2 flex flex-col">
-            <RobotChat 
+            <RobotTeacher 
               username={username}
               learningData={learningData}
               onQuizRequest={generateQuiz}
@@ -179,13 +179,13 @@ Make it challenging but appropriate for the level.`;
                   disabled={isLoading}
                   className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
                 >
-                  {isLoading ? '*GENERATING...*' : '⚡ Generate New Question'}
+                  {isLoading ? 'GENERATING...' : '⚡ Generate New Question'}
                 </Button>
                 
                 {currentQuiz && (
                   <div className="space-y-3">
                     <div className="p-3 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-lg border">
-                      <p className="font-medium text-sm">{currentQuiz.question}</p>
+                      <p className="font-medium text-sm break-words">{currentQuiz.question}</p>
                     </div>
                     
                     <div className="space-y-2">
@@ -201,11 +201,13 @@ Make it challenging but appropriate for the level.`;
                                 : "outline"
                               : "outline"
                           }
-                          className="w-full text-left justify-start text-xs"
+                          className="w-full text-left justify-start text-xs p-3 h-auto"
                           onClick={() => !showQuizAnswer && handleQuizAnswer(index)}
                           disabled={showQuizAnswer}
                         >
-                          {String.fromCharCode(65 + index)}. {option}
+                          <div className="break-words">
+                            {String.fromCharCode(65 + index)}. {option}
+                          </div>
                         </Button>
                       ))}
                     </div>
@@ -215,7 +217,7 @@ Make it challenging but appropriate for the level.`;
                         <p className="text-sm font-medium text-green-800 dark:text-green-200">
                           🤖 ARIA Explains:
                         </p>
-                        <p className="text-xs text-green-700 dark:text-green-300 mt-1">
+                        <p className="text-xs text-green-700 dark:text-green-300 mt-1 break-words">
                           {currentQuiz.explanation}
                         </p>
                       </div>
