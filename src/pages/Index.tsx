@@ -1,13 +1,21 @@
-
 import { useState } from 'react';
 import LoginForm from '@/components/LoginForm';
 import AIDialog from '@/components/AIDialog';
 import AILearningInterface from '@/components/AILearningInterface';
 
+interface UploadedFile {
+  id: string;
+  name: string;
+  type: string;
+  size: number;
+  preview?: string;
+}
+
 interface LearningData {
   examDate: Date;
   className: string;
   subject: string;
+  syllabusFiles?: UploadedFile[];
 }
 
 const Index = () => {

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,6 +10,15 @@ interface LearningData {
   examDate: Date;
   className: string;
   subject: string;
+  syllabusFiles?: UploadedFile[];
+}
+
+interface UploadedFile {
+  id: string;
+  name: string;
+  type: string;
+  size: number;
+  preview?: string;
 }
 
 interface AILearningInterfaceProps {
@@ -286,9 +294,38 @@ Make it challenging but appropriate for the level.`;
                     <span>Level:</span>
                     <span className="font-medium">{learningData.className}</span>
                   </div>
+                  {learningData.syllabusFiles && learningData.syllabusFiles.length > 0 && (
+                    <div className="flex justify-between text-sm">
+                      <span>Syllabus Files:</span>
+                      <span className="font-medium">{learningData.syllabusFiles.length} uploaded</span>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
+
+            {learningData.syllabusFiles && learningData.syllabusFiles.length > 0 && (
+              <Card className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 border-green-200 dark:border-green-800">
+                <CardHeader>
+                  <CardTitle className="text-lg">📚 Syllabus Materials</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {learningData.syllabusFiles.slice(0, 3).map((file) => (
+                      <div key={file.id} className="flex items-center gap-2 text-xs">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span className="truncate flex-1">{file.name}</span>
+                      </div>
+                    ))}
+                    {learningData.syllabusFiles.length > 3 && (
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        +{learningData.syllabusFiles.length - 3} more files
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>
