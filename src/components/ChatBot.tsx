@@ -141,16 +141,16 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
   };
 
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader className="pb-3">
+    <Card className="h-full flex flex-col max-h-[600px]">
+      <CardHeader className="pb-3 flex-shrink-0">
         <CardTitle className="flex items-center gap-2">
           <Bot className="h-5 w-5" />
           Your Study Mentor
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="flex-1 flex flex-col p-0">
-        <ScrollArea className="flex-1 px-4">
+      <CardContent className="flex-1 flex flex-col p-0 min-h-0 overflow-hidden">
+        <ScrollArea className="flex-1 px-4 max-h-[400px]">
           <div className="space-y-4 pb-4">
             {messages.map((message) => (
               <div
@@ -158,13 +158,13 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
                 className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
               >
                 <div
-                  className={`max-w-[80%] p-3 rounded-lg ${
+                  className={`max-w-[80%] p-3 rounded-lg break-words ${
                     message.isBot
                       ? 'bg-purple-100 text-purple-900 border-l-4 border-purple-500'
                       : 'bg-blue-100 text-blue-900'
                   }`}
                 >
-                  <p className="text-sm">{message.text}</p>
+                  <p className="text-sm whitespace-pre-wrap">{message.text}</p>
                   <span className="text-xs opacity-70 mt-1 block">
                     {message.timestamp.toLocaleTimeString()}
                   </span>
@@ -182,7 +182,7 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
           </div>
         </ScrollArea>
 
-        <div className="p-4 border-t">
+        <div className="p-4 border-t flex-shrink-0 bg-white dark:bg-gray-800">
           {!examDate && (
             <Button 
               onClick={onExamDateRequest} 
@@ -201,11 +201,13 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
               placeholder="Ask your mentor anything about studying..."
               onKeyPress={handleKeyPress}
               disabled={isLoading}
+              className="flex-1"
             />
             <Button 
               onClick={handleSendMessage}
               disabled={isLoading || !inputMessage.trim()}
               size="icon"
+              className="flex-shrink-0"
             >
               <Send className="h-4 w-4" />
             </Button>
