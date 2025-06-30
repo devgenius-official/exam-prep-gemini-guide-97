@@ -167,146 +167,141 @@ Provide a comprehensive, educational response that helps them learn effectively.
           <ThemeToggle />
         </div>
 
-        <div className="flex-1 p-4 overflow-hidden">
-          <div className="max-w-6xl mx-auto h-full">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
-              {/* Chat Interface */}
-              <div className="lg:col-span-2 h-full">
-                <Card className="h-full flex flex-col">
-                  <CardHeader className="flex-shrink-0 pb-3">
-                    <CardTitle className="flex items-center gap-2">
-                      <Bot className="h-5 w-5 text-blue-600" />
-                      Your AI Professor
-                    </CardTitle>
-                  </CardHeader>
-                  
-                  <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
-                    <div className="flex-1 overflow-hidden">
-                      <ScrollArea className="h-full px-4">
-                        <div className="space-y-4 py-4">
-                          {messages.map((message) => (
-                            <div
-                              key={message.id}
-                              className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
-                            >
-                              <div
-                                className={`max-w-[85%] p-4 rounded-lg ${
-                                  message.isBot
-                                    ? 'bg-blue-50 text-blue-900 border-l-4 border-blue-500'
-                                    : 'bg-gray-100 text-gray-900'
-                                }`}
-                              >
-                                <p className="text-sm whitespace-pre-wrap">{message.text}</p>
-                                <span className="text-xs opacity-70 mt-2 block">
-                                  {message.timestamp.toLocaleTimeString()}
-                                </span>
-                              </div>
-                            </div>
-                          ))}
-                          {isLoading && (
-                            <div className="flex justify-start">
-                              <div className="bg-blue-50 text-blue-900 p-4 rounded-lg border-l-4 border-blue-500">
-                                <p className="text-sm">Your AI mentor is thinking...</p>
-                                <div className="flex space-x-1 mt-2">
-                                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-                                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                          <div ref={messagesEndRef} />
-                        </div>
-                      </ScrollArea>
-                    </div>
-
-                    <div className="flex-shrink-0 p-4 border-t bg-white">
-                      <div className="flex gap-2">
-                        <Input
-                          value={inputMessage}
-                          onChange={(e) => setInputMessage(e.target.value)}
-                          placeholder="Ask me about your studies, request practice questions, or get help with concepts..."
-                          onKeyPress={handleKeyPress}
-                          disabled={isLoading}
-                        />
-                        <Button 
-                          onClick={handleSendMessage}
-                          disabled={isLoading || !inputMessage.trim()}
-                          size="icon"
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
+          {/* Chat Interface */}
+          <div className="lg:col-span-2 flex flex-col">
+            <Card className="flex-1 flex flex-col min-h-0">
+              <CardHeader className="flex-shrink-0 pb-3">
+                <CardTitle className="flex items-center gap-2">
+                  <Bot className="h-5 w-5 text-blue-600" />
+                  Your AI Professor
+                </CardTitle>
+              </CardHeader>
+              
+              <CardContent className="flex-1 flex flex-col p-0 min-h-0">
+                <ScrollArea className="flex-1 px-4" type="always">
+                  <div className="space-y-4 py-4">
+                    {messages.map((message) => (
+                      <div
+                        key={message.id}
+                        className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
+                      >
+                        <div
+                          className={`max-w-[85%] p-4 rounded-lg ${
+                            message.isBot
+                              ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 border-l-4 border-blue-500'
+                              : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                          }`}
                         >
-                          <Send className="h-4 w-4" />
-                        </Button>
+                          <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+                          <span className="text-xs opacity-70 mt-2 block">
+                            {message.timestamp.toLocaleTimeString()}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+                    ))}
+                    {isLoading && (
+                      <div className="flex justify-start">
+                        <div className="bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 p-4 rounded-lg border-l-4 border-blue-500">
+                          <p className="text-sm">Your AI mentor is thinking...</p>
+                          <div className="flex space-x-1 mt-2">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    <div ref={messagesEndRef} />
+                  </div>
+                </ScrollArea>
 
-              {/* Study Info Panel */}
-              <div className="space-y-4 overflow-y-auto">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Study Progress</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">{daysUntilExam}</div>
-                      <div className="text-sm text-gray-600">Days Until Exam</div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Exam Date:</span>
-                        <span className="font-medium">{learningData.examDate.toLocaleDateString()}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span>Subject:</span>
-                        <span className="font-medium">{learningData.subject}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span>Level:</span>
-                        <span className="font-medium">{learningData.className}</span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="flex-shrink-0 p-4 border-t bg-white dark:bg-gray-800">
+                  <div className="flex gap-2">
+                    <Input
+                      value={inputMessage}
+                      onChange={(e) => setInputMessage(e.target.value)}
+                      placeholder="Ask me about your studies, request practice questions, or get help with concepts..."
+                      onKeyPress={handleKeyPress}
+                      disabled={isLoading}
+                      className="dark:bg-gray-700 dark:text-white"
+                    />
+                    <Button 
+                      onClick={handleSendMessage}
+                      disabled={isLoading || !inputMessage.trim()}
+                      size="icon"
+                    >
+                      <Send className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Quick Actions</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-2">
-                    <Button 
-                      variant="outline" 
-                      className="w-full justify-start"
-                      onClick={() => setInputMessage("Can you create a study schedule for me?")}
-                    >
-                      📅 Create Study Schedule
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="w-full justify-start"
-                      onClick={() => setInputMessage("Give me practice questions")}
-                    >
-                      📝 Practice Questions
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="w-full justify-start"
-                      onClick={() => setInputMessage("Explain key concepts")}
-                    >
-                      💡 Key Concepts
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      className="w-full justify-start"
-                      onClick={() => setInputMessage("Tips for exam day")}
-                    >
-                      🎯 Exam Tips
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
+          {/* Study Info Panel */}
+          <div className="space-y-4 overflow-y-auto">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Study Progress</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">{daysUntilExam}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Days Until Exam</div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Exam Date:</span>
+                    <span className="font-medium">{learningData.examDate.toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Subject:</span>
+                    <span className="font-medium">{learningData.subject}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Level:</span>
+                    <span className="font-medium">{learningData.className}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setInputMessage("Can you create a study schedule for me?")}
+                >
+                  📅 Create Study Schedule
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setInputMessage("Give me practice questions")}
+                >
+                  📝 Practice Questions
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setInputMessage("Explain key concepts")}
+                >
+                  💡 Key Concepts
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start"
+                  onClick={() => setInputMessage("Tips for exam day")}
+                >
+                  🎯 Exam Tips
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
