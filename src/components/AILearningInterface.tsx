@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,7 +6,7 @@ import { Target, Clock, Play, Pause, RotateCcw, Bot, Brain, Sparkles } from 'luc
 import { toast } from 'sonner';
 import { ThemeToggle } from './ThemeToggle';
 import ChatBot from './ChatBot';
-import AITimetable from './AITimetable';
+import ExamTimetable from './ExamTimetable';
 
 interface LearningData {
   examDate: Date;
@@ -213,8 +214,8 @@ Make it challenging but appropriate for the level. Do not include any other text
         </div>
 
         {/* Main Dashboard Grid - Updated Layout */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-          {/* Left Column - Study Controls (1/4 width) */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          {/* Left Column - Study Controls (1/3 width) */}
           <div className="space-y-6">
             {/* Study Timer */}
             <Card className="bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 border-2 border-violet-200 dark:border-violet-700 shadow-lg">
@@ -363,21 +364,9 @@ Make it challenging but appropriate for the level. Do not include any other text
             </Card>
           </div>
 
-          {/* Middle Column - AI Timetable (1/4 width) */}
-          <div className="h-[800px]">
-            <AITimetable 
-              username={username}
-              currentExam={{
-                examDate: learningData.examDate,
-                className: learningData.className,
-                subject: learningData.subject
-              }}
-            />
-          </div>
-
-          {/* Right Column - AI Chat (2/4 width) */}
+          {/* Right Column - AI Chat (2/3 width) */}
           <div className="xl:col-span-2">
-            <div className="h-[800px]">
+            <div className="h-[600px]">
               <ChatBot 
                 username={username} 
                 examDate={learningData.examDate}
@@ -387,6 +376,18 @@ Make it challenging but appropriate for the level. Do not include any other text
               />
             </div>
           </div>
+        </div>
+
+        {/* Full Width Exam Timetable at Bottom */}
+        <div className="w-full">
+          <ExamTimetable 
+            username={username}
+            currentExam={{
+              examDate: learningData.examDate,
+              className: learningData.className,
+              subject: learningData.subject
+            }}
+          />
         </div>
       </div>
     </div>
