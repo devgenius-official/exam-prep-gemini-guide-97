@@ -5,10 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Target, Brain, Lightbulb, CheckCircle, ArrowLeft, Sparkles } from 'lucide-react';
+import { Target, Brain, Lightbulb, CheckCircle, ArrowLeft, Sparkles, GraduationCap, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import AIQuizGenerator from '@/components/AIQuizGenerator';
 
 const ExamPrepTools = () => {
   const [topic, setTopic] = useState('');
@@ -59,19 +60,22 @@ const ExamPrepTools = () => {
 
     setIsLoading(true);
     try {
-      const prompt = `Create a comprehensive study plan for the topic "${topic}" at ${difficulty} difficulty level. 
-      Include:
-      1. Learning objectives
-      2. Key concepts to master
-      3. Study timeline (weekly breakdown)
-      4. Practice activities
-      5. Assessment methods
+      const prompt = `Create a comprehensive AI-powered study plan for the topic "${topic}" at ${difficulty} difficulty level. 
       
-      Format it in a clear, structured way with bullet points and sections.`;
+      As an advanced AI study assistant, include:
+      1. Learning objectives with AI-enhanced techniques
+      2. Key concepts to master with memory strategies
+      3. Study timeline (weekly breakdown) with AI scheduling
+      4. Practice activities using AI tools
+      5. Assessment methods with AI feedback
+      6. Memory techniques and mnemonics
+      7. AI-powered review schedules
+      
+      Format it in a clear, structured way with bullet points and sections. Make it fully AI-integrated and modern.`;
 
       const plan = await callGeminiAPI(prompt);
       setStudyPlan(plan);
-      toast.success('🤖 AI Study Plan Generated!');
+      toast.success('🤖 Advanced AI Study Plan Generated!');
     } catch (error) {
       toast.error('Failed to generate study plan');
     } finally {
@@ -87,18 +91,20 @@ const ExamPrepTools = () => {
 
     setIsLoading(true);
     try {
-      const prompt = `Create 5 flashcards for the topic "${topic}" at ${difficulty} difficulty level.
+      const prompt = `Create 5 AI-enhanced flashcards for the topic "${topic}" at ${difficulty} difficulty level.
+      
+      Each flashcard should include memory techniques and be optimized for AI-assisted learning.
       
       Please respond ONLY with a valid JSON array in this format:
       [
-        {"question": "Question 1", "answer": "Answer 1"},
-        {"question": "Question 2", "answer": "Answer 2"},
-        {"question": "Question 3", "answer": "Answer 3"},
-        {"question": "Question 4", "answer": "Answer 4"},
-        {"question": "Question 5", "answer": "Answer 5"}
+        {"question": "Question 1 with memory cues", "answer": "Answer 1 with explanation and memory tip"},
+        {"question": "Question 2 with memory cues", "answer": "Answer 2 with explanation and memory tip"},
+        {"question": "Question 3 with memory cues", "answer": "Answer 3 with explanation and memory tip"},
+        {"question": "Question 4 with memory cues", "answer": "Answer 4 with explanation and memory tip"},
+        {"question": "Question 5 with memory cues", "answer": "Answer 5 with explanation and memory tip"}
       ]
       
-      Make the questions challenging but appropriate for the level.`;
+      Make the questions engaging and include memory strategies in the answers.`;
 
       const response = await callGeminiAPI(prompt);
       
@@ -113,7 +119,7 @@ const ExamPrepTools = () => {
       
       const parsedFlashcards = JSON.parse(cleanedData);
       setFlashcards(parsedFlashcards);
-      toast.success('🤖 AI Flashcards Generated!');
+      toast.success('🤖 AI Flashcards with Memory Tips Generated!');
     } catch (error) {
       console.error('Flashcard generation error:', error);
       toast.error('Failed to generate flashcards');
@@ -124,34 +130,63 @@ const ExamPrepTools = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-purple-900 dark:via-blue-900 dark:to-indigo-900">
-      <div className="container mx-auto p-6 space-y-6">
-        {/* Header */}
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <Link to="/">
-              <Button variant="outline" size="sm">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Dashboard
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-                🎯 AI Exam Prep Tools
-              </h1>
-              <p className="text-gray-600 dark:text-gray-300 text-lg">
-                Powered by AI to help you prepare effectively! 🤖
-              </p>
+      {/* Header Navigation */}
+      <header className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
+                <GraduationCap className="h-8 w-8 text-purple-600" />
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  AI Study Hub
+                </h1>
+              </div>
+              
+              <nav className="hidden md:flex items-center gap-4">
+                <Link to="/dashboard">
+                  <Button variant="ghost" className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <ArrowLeft className="h-4 w-4" />
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button variant="ghost" className="flex items-center gap-2 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300">
+                  <Target className="h-4 w-4" />
+                  🎯 Exam Prep Tools
+                </Button>
+                <Link to="/study-resources">
+                  <Button variant="ghost" className="flex items-center gap-2 hover:bg-blue-100 dark:hover:bg-blue-900/30">
+                    <BookOpen className="h-4 w-4" />
+                    📚 Study Resources
+                  </Button>
+                </Link>
+              </nav>
             </div>
+            
+            <ThemeToggle />
           </div>
-          <ThemeToggle />
         </div>
+      </header>
+
+      <div className="container mx-auto p-6 space-y-6">
+        {/* Page Title */}
+        <div className="text-center">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+            🎯 AI Exam Prep Tools
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 text-lg">
+            Fully AI-powered exam preparation with advanced learning tools! 🤖
+          </p>
+        </div>
+
+        {/* AI Quiz Generator */}
+        <AIQuizGenerator />
 
         {/* Input Section */}
         <Card className="bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 border-2 border-violet-200 dark:border-violet-700">
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <Target className="h-6 w-6 text-violet-600" />
-              📚 Topic Configuration
+              📚 AI Topic Configuration
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -190,7 +225,7 @@ const ExamPrepTools = () => {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Brain className="h-5 w-5 text-blue-600" />
-                🗓️ AI Study Plan Generator
+                🗓️ Advanced AI Study Plan Generator
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -202,12 +237,12 @@ const ExamPrepTools = () => {
                 {isLoading ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Generating...
+                    AI Processing...
                   </>
                 ) : (
                   <>
                     <Sparkles className="h-4 w-4 mr-2" />
-                    Generate Study Plan
+                    Generate AI Study Plan
                   </>
                 )}
               </Button>
@@ -229,7 +264,7 @@ const ExamPrepTools = () => {
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Lightbulb className="h-5 w-5 text-green-600" />
-                🃏 AI Flashcard Generator
+                🃏 AI Flashcard with Memory Tools
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -241,12 +276,12 @@ const ExamPrepTools = () => {
                 {isLoading ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Generating...
+                    AI Creating...
                   </>
                 ) : (
                   <>
                     <Sparkles className="h-4 w-4 mr-2" />
-                    Generate Flashcards
+                    Generate AI Flashcards
                   </>
                 )}
               </Button>
