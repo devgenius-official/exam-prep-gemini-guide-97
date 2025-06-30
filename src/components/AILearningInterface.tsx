@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +6,7 @@ import { toast } from 'sonner';
 import { ThemeToggle } from './ThemeToggle';
 import ChatBot from './ChatBot';
 import ExamTimetable from './ExamTimetable';
+import { Link } from 'react-router-dom';
 
 interface LearningData {
   examDate: Date;
@@ -388,6 +388,22 @@ Make it challenging but appropriate for the level. Do not include any other text
               subject: learningData.subject
             }}
           />
+        </div>
+
+        {/* Quick Actions - Updated to link to new pages */}
+        <div className="flex gap-3 justify-center">
+          <Link to="/exam-prep-tools">
+            <Button className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white shadow-lg">
+              <Target className="h-4 w-4 mr-2" />
+              🎯 Exam Prep Tools
+            </Button>
+          </Link>
+          <Link to="/study-resources">
+            <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg">
+              <BookOpen className="h-4 w-4 mr-2" />
+              📚 Study Resources
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
