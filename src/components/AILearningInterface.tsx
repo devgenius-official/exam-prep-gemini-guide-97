@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -153,7 +152,7 @@ Provide a comprehensive, educational response that helps them learn effectively.
   const daysUntilExam = Math.ceil((learningData.examDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
 
   return (
-    <div className="h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col">
+    <div className="h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col overflow-hidden">
       <div className="flex-shrink-0 p-4">
         {/* Header */}
         <div className="max-w-6xl mx-auto text-center">
@@ -191,43 +190,45 @@ Provide a comprehensive, educational response that helps them learn effectively.
                   </CardTitle>
                 </CardHeader>
                 
-                <CardContent className="flex-1 flex flex-col p-0 min-h-0">
-                  <ScrollArea className="flex-1 px-4">
-                    <div className="space-y-4 py-4">
-                      {messages.map((message) => (
-                        <div
-                          key={message.id}
-                          className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
-                        >
+                <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
+                  <div className="flex-1 overflow-hidden">
+                    <ScrollArea className="h-full px-4">
+                      <div className="space-y-4 py-4">
+                        {messages.map((message) => (
                           <div
-                            className={`max-w-[85%] p-4 rounded-lg ${
-                              message.isBot
-                                ? 'bg-blue-50 text-blue-900 border-l-4 border-blue-500'
-                                : 'bg-gray-100 text-gray-900'
-                            }`}
+                            key={message.id}
+                            className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
                           >
-                            <p className="text-sm whitespace-pre-wrap">{message.text}</p>
-                            <span className="text-xs opacity-70 mt-2 block">
-                              {message.timestamp.toLocaleTimeString()}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                      {isLoading && (
-                        <div className="flex justify-start">
-                          <div className="bg-blue-50 text-blue-900 p-4 rounded-lg border-l-4 border-blue-500">
-                            <p className="text-sm">Your AI mentor is thinking...</p>
-                            <div className="flex space-x-1 mt-2">
-                              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-                              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            <div
+                              className={`max-w-[85%] p-4 rounded-lg ${
+                                message.isBot
+                                  ? 'bg-blue-50 text-blue-900 border-l-4 border-blue-500'
+                                  : 'bg-gray-100 text-gray-900'
+                              }`}
+                            >
+                              <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+                              <span className="text-xs opacity-70 mt-2 block">
+                                {message.timestamp.toLocaleTimeString()}
+                              </span>
                             </div>
                           </div>
-                        </div>
-                      )}
-                      <div ref={messagesEndRef} />
-                    </div>
-                  </ScrollArea>
+                        ))}
+                        {isLoading && (
+                          <div className="flex justify-start">
+                            <div className="bg-blue-50 text-blue-900 p-4 rounded-lg border-l-4 border-blue-500">
+                              <p className="text-sm">Your AI mentor is thinking...</p>
+                              <div className="flex space-x-1 mt-2">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        <div ref={messagesEndRef} />
+                      </div>
+                    </ScrollArea>
+                  </div>
 
                   <div className="flex-shrink-0 p-4 border-t bg-white">
                     <div className="flex gap-2">
