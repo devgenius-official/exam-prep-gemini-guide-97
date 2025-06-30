@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import LoginForm from '@/components/LoginForm';
 import AIDialog from '@/components/AIDialog';
@@ -35,10 +36,12 @@ const Index = () => {
     setShowAIDialog(false);
   };
 
+  // Show login form when not logged in
   if (!isLoggedIn) {
     return <LoginForm onLogin={handleLogin} />;
   }
 
+  // Show AI dialog after login
   if (showAIDialog) {
     return (
       <AIDialog 
@@ -48,6 +51,7 @@ const Index = () => {
     );
   }
 
+  // Show dashboard after completing AI dialog
   if (learningData) {
     return (
       <AILearningInterface 
