@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -111,7 +110,7 @@ const AILearningInterface = ({ username, learningData }: AILearningInterfaceProp
       return data.candidates[0].content.parts[0].text;
     } catch (error) {
       console.error('Error calling Gemini API:', error);
-      return null;
+      throw error;
     }
   };
 
@@ -128,33 +127,56 @@ const AILearningInterface = ({ username, learningData }: AILearningInterfaceProp
   const generateQuiz = async () => {
     setIsLoading(true);
     try {
-      const prompt = `Generate a single multiple choice question for ${learningData.subject} at ${learningData.className} level. 
+      const prompt = `Create a multiple choice question for ${learningData.subject} at ${learningData.className} level.
 
-Format your response as JSON with this exact structure:
+Please respond ONLY with a valid JSON object in this exact format:
 {
   "question": "Your question here",
   "options": ["Option A", "Option B", "Option C", "Option D"],
   "correctAnswer": 0,
-  "explanation": "Detailed explanation of why this is correct"
+  "explanation": "Brief explanation of why this is correct"
 }
 
-Make it challenging but appropriate for the level.`;
+Make it challenging but appropriate for the level. Do not include any other text or formatting.`;
 
       const quizData = await callGeminiAPI(prompt);
       
       if (quizData) {
         try {
-          const parsedQuiz = JSON.parse(quizData);
-          setCurrentQuiz(parsedQuiz);
-          setShowQuizAnswer(false);
-          setSelectedAnswer(null);
-          toast.success('🤖 AI Generated new quiz question!');
+          // Clean the response to extract JSON
+          let cleanedData = quizData.trim();
+          
+          // Remove markdown code blocks if present
+          cleanedData = cleanedData.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+          
+          // Find JSON object in the response
+          const jsonMatch = cleanedData.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            cleanedData = jsonMatch[0];
+          }
+          
+          console.log('Cleaned quiz data:', cleanedData);
+          
+          const parsedQuiz = JSON.parse(cleanedData);
+          
+          // Validate the structure
+          if (parsedQuiz.question && Array.isArray(parsedQuiz.options) && 
+              typeof parsedQuiz.correctAnswer === 'number' && parsedQuiz.explanation) {
+            setCurrentQuiz(parsedQuiz);
+            setShowQuizAnswer(false);
+            setSelectedAnswer(null);
+            toast.success('🤖 New quiz question generated!');
+          } else {
+            throw new Error('Invalid quiz structure');
+          }
         } catch (parseError) {
-          toast.error('Failed to parse quiz data');
+          console.error('Parse error:', parseError);
+          toast.error('Failed to parse quiz data. Please try again.');
         }
       }
     } catch (error) {
-      toast.error('Failed to generate quiz question');
+      console.error('Quiz generation error:', error);
+      toast.error('Failed to generate quiz question. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -343,24 +365,15 @@ Make it challenging but appropriate for the level.`;
 
           {/* Right Column - AI Chat */}
           <div className="lg:col-span-2">
-            <Card className="h-[800px]">
-              <CardHeader>
-                <CardTitle className="text-xl bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                  💬 AI Study Mentor
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-0 h-full">
-                <div className="h-[700px]">
-                  <ChatBot 
-                    username={username} 
-                    examDate={learningData.examDate}
-                    onExamDateRequest={() => {
-                      console.log('Exam date update requested');
-                    }}
-                  />
-                </div>
-              </CardContent>
-            </Card>
+            <div className="h-[800px]">
+              <ChatBot 
+                username={username} 
+                examDate={learningData.examDate}
+                onExamDateRequest={() => {
+                  console.log('Exam date update requested');
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
