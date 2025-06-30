@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Target, Clock, Play, Pause, RotateCcw, Bot, Brain, Sparkles } from 'lucide-react';
+import { Target, Clock, Play, Pause, RotateCcw, Bot, Brain, Sparkles, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { ThemeToggle } from './ThemeToggle';
 import ChatBot from './ChatBot';
