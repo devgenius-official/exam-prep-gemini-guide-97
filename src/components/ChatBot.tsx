@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,13 +31,26 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current && scrollAreaRef.current) {
+      // Only scroll within the chat container, not the whole page
+      messagesEndRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'end',
+        inline: 'nearest'
+      });
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
+    // Use a timeout to ensure the DOM has updated
+    const timer = setTimeout(() => {
+      scrollToBottom();
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, [messages]);
 
   useEffect(() => {
@@ -141,7 +153,7 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
   };
 
   return (
-    <Card className="h-full flex flex-col max-h-[600px]">
+    <Card className="h-full flex flex-col max-h-[600px] overflow-hidden">
       <CardHeader className="pb-3 flex-shrink-0">
         <CardTitle className="flex items-center gap-2">
           <Bot className="h-5 w-5" />
@@ -150,7 +162,11 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
       </CardHeader>
       
       <CardContent className="flex-1 flex flex-col p-0 min-h-0 overflow-hidden">
-        <ScrollArea className="flex-1 px-4 max-h-[400px]">
+        <div 
+          ref={scrollAreaRef}
+          className="flex-1 overflow-y-auto px-4 max-h-[400px] scroll-smooth"
+          style={{ scrollBehavior: 'smooth' }}
+        >
           <div className="space-y-4 pb-4">
             {messages.map((message) => (
               <div
@@ -180,7 +196,7 @@ const ChatBot = ({ username, examDate, onExamDateRequest }: ChatBotProps) => {
             )}
             <div ref={messagesEndRef} />
           </div>
-        </ScrollArea>
+        </div>
 
         <div className="p-4 border-t flex-shrink-0 bg-white dark:bg-gray-800">
           {!examDate && (
