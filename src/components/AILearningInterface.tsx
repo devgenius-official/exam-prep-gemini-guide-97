@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Target, Clock, Play, Pause, RotateCcw } from 'lucide-react';
+import { Target, Clock, Play, Pause, RotateCcw, Sparkles, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { ThemeToggle } from './ThemeToggle';
 import RobotTeacher from './RobotTeacher';
@@ -148,15 +148,15 @@ Make it challenging but appropriate for the level.`;
   const daysUntilExam = Math.ceil((learningData.examDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-purple-900 dark:via-blue-900 dark:to-indigo-900 p-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-              🤖 AI Learning Assistant
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+              🤖 AI Learning Assistant - ARIA
             </h1>
             <p className="text-gray-600 dark:text-gray-300">
-              Welcome {username}, let's master your {learningData.subject} with ARIA
+              Welcome {username}, let's master your {learningData.subject} together! 🚀
             </p>
           </div>
           <ThemeToggle />
@@ -174,10 +174,10 @@ Make it challenging but appropriate for the level.`;
 
           {/* AI Quiz Section */}
           <div className="flex flex-col space-y-4">
-            <Card className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-green-200 dark:border-green-800">
+            <Card className="bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 border-2 border-emerald-200 dark:border-emerald-700 shadow-lg">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Target className="h-5 w-5 text-green-600" />
+                  <Target className="h-5 w-5 text-emerald-600" />
                   🤖 ARIA Quiz Generator
                 </CardTitle>
               </CardHeader>
@@ -185,9 +185,19 @@ Make it challenging but appropriate for the level.`;
                 <Button 
                   onClick={() => generateQuiz()}
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+                  className="w-full bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-700 hover:to-blue-700 shadow-lg font-semibold"
                 >
-                  {isLoading ? 'GENERATING...' : '⚡ Generate New Question'}
+                  {isLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      GENERATING...
+                    </>
+                  ) : (
+                    <>
+                      ⚡ Generate New Question
+                      <Sparkles className="w-4 h-4 ml-2" />
+                    </>
+                  )}
                 </Button>
                 
                 {currentQuiz && (
@@ -238,16 +248,16 @@ Make it challenging but appropriate for the level.`;
 
           {/* Study Info & Timer Panel */}
           <div className="space-y-4 overflow-y-auto">
-            <Card className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-purple-200 dark:border-purple-800">
+            <Card className="bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 border-2 border-violet-200 dark:border-violet-700 shadow-lg">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-purple-600" />
+                  <Clock className="h-5 w-5 text-violet-600" />
                   ⏰ Study Timer
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="text-center">
-                  <div className="text-3xl font-mono font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  <div className="text-3xl font-mono font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
                     {formatTime(studyTime)}
                   </div>
                 </div>
@@ -256,7 +266,7 @@ Make it challenging but appropriate for the level.`;
                     onClick={toggleTimer} 
                     variant="outline" 
                     size="sm"
-                    className="flex-1 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900/50 dark:to-blue-900/50"
+                    className="flex-1 bg-gradient-to-r from-violet-100 to-purple-100 dark:from-violet-900/50 dark:to-purple-900/50 border-violet-200"
                   >
                     {isTimerRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                   </Button>
@@ -264,7 +274,7 @@ Make it challenging but appropriate for the level.`;
                     onClick={resetTimer} 
                     variant="outline" 
                     size="sm"
-                    className="bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/50 dark:to-pink-900/50"
+                    className="bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/50 dark:to-pink-900/50 border-red-200"
                   >
                     <RotateCcw className="h-4 w-4" />
                   </Button>
@@ -272,31 +282,42 @@ Make it challenging but appropriate for the level.`;
               </CardContent>
             </Card>
 
-            <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border-blue-200 dark:border-blue-800">
+            <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-200 dark:border-blue-700 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-lg">📊 Mission Data</CardTitle>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  📊 Mission Control
+                  <Sparkles className="w-4 h-4 text-blue-500" />
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">{daysUntilExam}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Days Until Target</div>
+                  <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{daysUntilExam}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Days Until Target 🎯</div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Target Date:</span>
+                    <span className="flex items-center gap-1">
+                      📅 Target Date:
+                    </span>
                     <span className="font-medium">{learningData.examDate.toLocaleDateString()}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Subject:</span>
+                    <span className="flex items-center gap-1">
+                      📚 Subject:
+                    </span>
                     <span className="font-medium">{learningData.subject}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Level:</span>
+                    <span className="flex items-center gap-1">
+                      🎓 Level:
+                    </span>
                     <span className="font-medium">{learningData.className}</span>
                   </div>
                   {learningData.syllabusFiles && learningData.syllabusFiles.length > 0 && (
                     <div className="flex justify-between text-sm">
-                      <span>Syllabus Files:</span>
+                      <span className="flex items-center gap-1">
+                        📖 Materials:
+                      </span>
                       <span className="font-medium">{learningData.syllabusFiles.length} uploaded</span>
                     </div>
                   )}
@@ -305,15 +326,18 @@ Make it challenging but appropriate for the level.`;
             </Card>
 
             {learningData.syllabusFiles && learningData.syllabusFiles.length > 0 && (
-              <Card className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 border-green-200 dark:border-green-800">
+              <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-2 border-emerald-200 dark:border-emerald-700 shadow-lg">
                 <CardHeader>
-                  <CardTitle className="text-lg">📚 Syllabus Materials</CardTitle>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    📚 Study Materials
+                    <CheckCircle className="w-4 h-4 text-emerald-500" />
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
                     {learningData.syllabusFiles.slice(0, 3).map((file) => (
                       <div key={file.id} className="flex items-center gap-2 text-xs">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
                         <span className="truncate flex-1">{file.name}</span>
                       </div>
                     ))}
